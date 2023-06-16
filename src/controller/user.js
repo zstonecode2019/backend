@@ -12,9 +12,13 @@ const register = async (req, res) => {
 }
 
 const login = async (req, res) => {
-    const { name, password } = req.body;
-    const token = await userService.login(name, password);
-    res.send(ResponseWrapper.success(token));
+    const { username, password } = req.body;
+    const token = await userService.login(username, password);
+    if (token) {
+        res.send(ResponseWrapper.success(token));
+    } else {
+        res.send(ResponseWrapper.error(`User ${username} does not exist or password is wrong`));
+    }
 }
 
 const getUserList = async (req, res) => {

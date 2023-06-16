@@ -13,12 +13,23 @@ getEnv(path.resolve(__dirname, '../env'));
 const app = express();
 let port = process.env.PORT || 8000;
 
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Method', '*');
+    res.setHeader('Access-Control-Allow-Headers', '*');
+    next();
+})
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(async (req, res, next) => {
     let url = req.url;
-    console.log(`Request URL: ${url}`);
+    let method = req.method;
+    if(method === 'OPTIONS') {
+        next();
+    }
+    console.log(`Request URL: ${method} ${url}`);
     if (url === '/user/login' || url === '/user/register') {
         next();
     } else {
