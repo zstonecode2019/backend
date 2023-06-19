@@ -7,7 +7,7 @@ const register = async (req, res) => {
     if (result) {
         res.send(ResponseWrapper.success(result));
     } else {
-        res.send(ResponseWrapper.error(`User ${name} already exists`));
+        res.send(ResponseWrapper.error(`用户 ${name} 已经存在！`));
     }
 }
 
@@ -17,7 +17,7 @@ const login = async (req, res) => {
     if (token) {
         res.send(ResponseWrapper.success(token));
     } else {
-        res.send(ResponseWrapper.error(`User ${username} does not exist or password is wrong`));
+        res.send(ResponseWrapper.error(`用户 ${username} 不存在或者密码错误！`));
     }
 }
 
