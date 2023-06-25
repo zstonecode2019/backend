@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const userDao = require('../dao/userDao');
 
 const getUserList = async () => {
@@ -7,6 +8,9 @@ const getUserList = async () => {
 }
 
 const login = async (name, password) => {
+    const md5 = crypto.createHash('md5');
+    password = md5.update(password).digest('hex');
+
     const result = await userDao.login(name, password);
 
     if (result.length === 0) {
@@ -19,6 +23,8 @@ const login = async (name, password) => {
 }
 
 const register = async (userInfo) => {
+    const md5 = crypto.createHash('md5');
+    userInfo.password = md5.update(userInfo.password).digest('hex');
     const result = await userDao.register(userInfo);
     return result;
 }
