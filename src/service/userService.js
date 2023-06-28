@@ -7,6 +7,11 @@ const getUserList = async () => {
     return result;
 }
 
+const getUserById = async (id) => {
+    const result = await userDao.getUserById(id);
+    return result;
+}
+
 const login = async (name, password) => {
     const md5 = crypto.createHash('md5');
     password = md5.update(password).digest('hex');
@@ -32,5 +37,6 @@ const register = async (userInfo) => {
 module.exports = {
     getUserList,
     login,
-    register
+    register,
+    getUserById
 }

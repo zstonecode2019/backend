@@ -10,6 +10,14 @@ const getUserList = async () => {
     return result[0];
 }
 
+const getUserById = async (id) => {
+    const pool = await database.getPool();
+
+    const result = await pool.query("select * from users where id = ?", [id]);
+
+    return result[0];
+}
+
 const login = async (name, password) => {
     const pool = await database.getPool();
 
@@ -42,5 +50,6 @@ const register = async (userInfo) => {
 module.exports = {
     getUserList,
     login,
-    register
+    register,
+    getUserById
 }

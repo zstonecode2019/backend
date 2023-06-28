@@ -23,11 +23,26 @@ const login = async (req, res) => {
 
 const getUserList = async (req, res) => {
     const result = await userService.getUserList();
-    res.send(ResponseWrapper.success(result));
+    if(result){
+        res.send(ResponseWrapper.success(result));
+    }else{
+        res.send(ResponseWrapper.error(`用户列表不存在！`));
+    }
+}
+
+const getUserById = async (req, res) => {
+    const { id } = req.query;
+    const result = await userService.getUserById(id);
+    if(result){
+        res.send(ResponseWrapper.success(result));
+    }else{
+        res.send(ResponseWrapper.error(`用户不存在！`));
+    }
 }
 
 module.exports = {
     'get /getUserList': getUserList,
     'post /register': register,
     'post /login': login,
+    'get /getUserById': getUserById,
 }
