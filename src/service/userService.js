@@ -21,9 +21,9 @@ const login = async (name, password) => {
     if (result.length === 0) {
         return '';
     } else {
-        let { name, password, nickname } = result[0];
+        let { id, name, password, nickname } = result[0];
         let older_token = jwt.sign({ name, password, iat: Math.floor(Date.now() / 1000) }, 'shhhhh');
-        return { token: older_token, nickname, name };
+        return { token: older_token, nickname, name, id };
     }
 }
 

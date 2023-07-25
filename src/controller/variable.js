@@ -31,9 +31,20 @@ const getVariablesByProjectId = async (req, res) => {
     }
 }
 
+const deleteVariableById = async (req, res) => {
+    const { id } = req.query;
+    const result = await variableService.deleteVariableById(id);
+    if (result) {
+        res.send(ResponseWrapper.success(result));
+    } else {
+        res.send(ResponseWrapper.error(`变量不存在！`));
+    }
+}
+
 
 module.exports = {
     'post /save': save,
     'get /getById': getById,
-    'get /getVariablesByProjectId': getVariablesByProjectId
+    'get /getVariablesByProjectId': getVariablesByProjectId,
+    'get /deleteVariableById': deleteVariableById
 }

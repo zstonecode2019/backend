@@ -19,8 +19,14 @@ const getVariablesByProjectId = async (project_id) => {
     return result;
 }
 
+const deleteVariableById = async (id) => {
+    const result = await variableDao.deleteVariableById(id);
+    return result;
+}
+
 module.exports = {
     save,
     getById,
-    getVariablesByProjectId
+    getVariablesByProjectId,
+    deleteVariableById
 }

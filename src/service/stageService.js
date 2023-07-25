@@ -1,7 +1,13 @@
 const stageDao = require('../dao/stageDao');
 
 const save = async (stage) => {
-    const result = await stageDao.save(stage);
+    let result;
+    if(stage.id) {
+        result = await stageDao.update(stage);
+    }else{
+        delete stage.id;
+        result = await stageDao.save(stage);
+    }
     return result;
 }
 

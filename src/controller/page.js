@@ -2,8 +2,8 @@ const pageService = require('../service/pageService');
 const ResponseWrapper = require('../lib/ResponseWrapper');
 
 const save = async (req, res) => {
-    const { uuid,name,chapter_id } = req.body;
-    const result = await pageService.save({ uuid,name,chapter_id });
+    const { id,name,uuid,chapter_id } = req.body;
+    const result = await pageService.save({ id, name, uuid, chapter_id });
     if (result) {
         res.send(ResponseWrapper.success(result));
     } else {
@@ -31,9 +31,20 @@ const getPagesByChapterId = async (req, res) => {
     }
 }
 
+const deletePageById = async (req, res) => {
+    const { id } = req.query;
+    const result = await pageService.deletePageById(id);
+    if (result) {
+        res.send(ResponseWrapper.success(result));
+    } else {
+        res.send(ResponseWrapper.error(`页面不存在！`));
+    }
+}
+
 
 module.exports = {
     'post /save': save,
     'get /getById': getById,
-    'get /getPagesByChapterId': getPagesByChapterId
+    'get /getPagesByChapterId': getPagesByChapterId,
+    'get /deletePageById': deletePageById
 }

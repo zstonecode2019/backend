@@ -2,8 +2,8 @@ const projectService = require('../service/projectService');
 const ResponseWrapper = require('../lib/ResponseWrapper');
 
 const save = async (req, res) => {
-    const { name, path, screen, mode, user_id, theme, unique_id } = req.body;
-    const result = await projectService.save({ name, path, screen, mode, user_id, theme, unique_id });
+    const { id,name, path, screen, mode, user_id, theme, unique_id } = req.body;
+    const result = await projectService.save({ id, name, path, screen, mode, user_id, theme, unique_id });
     if (result) {
         res.send(ResponseWrapper.success(result));
     } else {

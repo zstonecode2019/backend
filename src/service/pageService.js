@@ -1,7 +1,13 @@
 const pageDao = require('../dao/pageDao');
 
 const save = async (page) => {
-    const result = await pageDao.save(page);
+    let result;
+    if(page.id) {
+        result = await pageDao.update(page);
+    } else {
+        delete page.id;
+        result = await pageDao.save(page);
+    }
     return result;
 }
 
@@ -19,8 +25,14 @@ const getPagesByChapterId = async (chapter_id) => {
     return result;
 }
 
+const deletePageById = async (id) => {
+    const result = await pageDao.deletePageById(id);
+    return result;
+}
+
 module.exports = {
     save,
     getById,
-    getPagesByChapterId
+    getPagesByChapterId,
+    deletePageById,
 }

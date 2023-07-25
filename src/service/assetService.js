@@ -15,7 +15,17 @@ const getById = async (id) => {
     }
 }
 
+const getByUserId = async (id) => {
+    const result = await assetDao.getByUserId(id);
+    if(Array.isArray(result) && result.length){
+        return result;
+    }else{
+        return null;
+    }
+}
+
 module.exports = {
     save,
     getById,
+    getByUserId
 }

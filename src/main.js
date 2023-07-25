@@ -20,14 +20,15 @@ app.use((req, res, next) => {
     next();
 })
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json({limit: '500mb'}))
+app.use(bodyParser.urlencoded({ extended: true, limit: '500mb' }))
 
 app.use(async (req, res, next) => {
     let url = req.url;
     let method = req.method;
     if(method === 'OPTIONS') {
         next();
+        return;
     }
     console.log(`Request URL: ${method} ${url}`);
     if (url === '/user/login' || url === '/user/register') {
@@ -49,6 +50,8 @@ app.use(async (req, res, next) => {
         }
     }
 })
+app.use(express.static('public'));
+
 
 app.use(router);
 

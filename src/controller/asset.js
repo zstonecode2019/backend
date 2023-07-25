@@ -21,8 +21,19 @@ const getById = async (req, res) => {
     }
 }
 
+const getByUserId = async (req, res) => {
+    const { user_id } = req.query;
+    const result = await assetService.getByUserId(user_id);
+    if (result) {
+        res.send(ResponseWrapper.success(result));
+    } else {
+        res.send(ResponseWrapper.error(`${user_id}下的资产不存在！`));
+    }
+}
+
 
 module.exports = {
     'post /save': save,
     'get /getById': getById,
+    'get /getByUserId': getByUserId
 }

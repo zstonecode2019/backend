@@ -2,8 +2,8 @@ const chapterService = require('../service/chapterService');
 const ResponseWrapper = require('../lib/ResponseWrapper');
 
 const save = async (req, res) => {
-    const { uuid,name,project_id } = req.body;
-    const result = await chapterService.save({ uuid,name,project_id });
+    const { id,name,uuid,project_id } = req.body;
+    const result = await chapterService.save({ id,name,uuid,project_id });
     if (result) {
         res.send(ResponseWrapper.success(result));
     } else {
@@ -31,9 +31,20 @@ const getChaptersByProjectId = async (req, res) => {
     }
 }
 
+const deleteChapterById = async (req, res) => {
+    const { id } = req.query;
+    const result = await chapterService.deleteChapterById(id);
+    if (result) {
+        res.send(ResponseWrapper.success(result));
+    } else {
+        res.send(ResponseWrapper.error(`章节不存在！`));
+    }
+}
+
 
 module.exports = {
     'post /save': save,
     'get /getById': getById,
-    'get /getChaptersByProjectId': getChaptersByProjectId
+    'get /getChaptersByProjectId': getChaptersByProjectId,
+    'get /deleteChapterById': deleteChapterById
 }

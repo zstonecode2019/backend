@@ -11,6 +11,15 @@ const save = async (project) => {
     return result[0];
 }
 
+const update = async (project) => {
+    const pool = await database.getPool();
+    project.user_id = parseInt(project.user_id);
+    project.id = parseInt(project.id);
+
+    const result = await pool.query("update projects set ? where id = ?", [project, project.id]);
+    return result[0];
+}
+
 const getById = async (id) => {
     const pool = await database.getPool();
 
@@ -29,6 +38,7 @@ const getProjectsByUserId = async (user_id) => {
 
 module.exports = {
     save,
+    update,
     getById,
     getProjectsByUserId
 }

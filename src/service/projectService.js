@@ -1,7 +1,13 @@
 const projectDao = require('../dao/projectDao');
 
 const save = async (project) => {
-    const result = await projectDao.save(project);
+    let result;
+    if(project.id) {
+        result = await projectDao.update(project);
+    } else {
+        delete project.id;
+        result = await projectDao.save(project);
+    }
     return result;
 }
 

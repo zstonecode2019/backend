@@ -2,8 +2,8 @@ const entityService = require('../service/entityService');
 const ResponseWrapper = require('../lib/ResponseWrapper');
 
 const save = async (req, res) => {
-    const { stage_id,name,type,belong_scene,position,rotation,scale,uuid, container_id } = req.body;
-    const result = await entityService.save({ stage_id,name,type,belong_scene,position,rotation,scale,uuid,container_id });
+    const {id, stage_id,name,type,belong_scene,position,rotation,scale,uuid, container_id,bundled_asset_id } = req.body;
+    const result = await entityService.save({id, stage_id,name,type,belong_scene,position,rotation,scale,uuid,container_id,bundled_asset_id });
     if (result) {
         res.send(ResponseWrapper.success(result));
     } else {
@@ -31,9 +31,20 @@ const getEntitiesByStageId = async (req, res) => {
     }
 }
 
+const deleteEntityById = async (req, res) => {
+    const { id } = req.query;
+    const result = await entityService.deleteEntityById(id);
+    if (result) {
+        res.send(ResponseWrapper.success(result));
+    } else {
+        res.send(ResponseWrapper.error(`删除实体失败！`));
+    }
+}
+
 
 module.exports = {
     'post /save': save,
     'get /getById': getById,
-    'get /getEntitiesByStageId': getEntitiesByStageId
+    'get /getEntitiesByStageId': getEntitiesByStageId,
+    'get /deleteEntityById': deleteEntityById
 }
