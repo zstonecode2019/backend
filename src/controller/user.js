@@ -40,9 +40,20 @@ const getUserById = async (req, res) => {
     }
 }
 
+const getProjectsByUserId = async (req, res) => {
+    const { userId } = req.query;
+    const result = await userService.getProjectsByUserId(userId);
+    if(result){
+        res.send(ResponseWrapper.success(result));
+    }else{
+        res.send(ResponseWrapper.error(`用户${userId}没有项目！`));
+    }
+}
+
 module.exports = {
     'get /getUserList': getUserList,
     'post /register': register,
     'post /login': login,
     'get /getUserById': getUserById,
+    'get /getProjectsByUserId': getProjectsByUserId,
 }

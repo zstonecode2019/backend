@@ -12,6 +12,11 @@ const getUserById = async (id) => {
     return result;
 }
 
+const getProjectsByUserId = async (id) => {
+    const result = await userDao.getProjectsByUserId(id);
+    return result;
+}
+
 const login = async (name, password) => {
     const md5 = crypto.createHash('md5');
     password = md5.update(password).digest('hex');
@@ -38,5 +43,6 @@ module.exports = {
     getUserList,
     login,
     register,
-    getUserById
+    getUserById,
+    getProjectsByUserId
 }

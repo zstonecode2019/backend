@@ -18,6 +18,15 @@ const getUserById = async (id) => {
     return result[0];
 }
 
+const getProjectsByUserId = async (id) => {
+    id = parseInt(id);
+    const pool = await database.getPool();
+
+    const result = await pool.query("select * from projects where user_id = ? and is_delete = 0", [id]);
+
+    return result[0];
+}
+
 const login = async (name, password) => {
     const pool = await database.getPool();
 
@@ -51,5 +60,6 @@ module.exports = {
     getUserList,
     login,
     register,
-    getUserById
+    getUserById,
+    getProjectsByUserId
 }

@@ -38,11 +38,22 @@ const getPagesByChapterId = async (chapter_id) => {
 }
 
 const deletePageById = async (id) => {
+    id = parseInt(id);
     const pool = await database.getPool();
 
-    const result = await pool.query("update pages set is_delete = 1 where id = ?", [chapter_id]);
-
-    return result[0];
+    // const result = await pool.query("update pages set is_delete = 1 where id = ?", [id]);
+    const conn = await pool.getConnection();
+    try{
+        const err = await conn.beginTransaction();
+        const rs1 = await conn.query('UPDATE pages p SET p.is_delete = 1 WHERE p.id = ?;',[id]);
+        const rs2 = await conn.query('update stage s set s.is_delete = 1 where s.page_id = ?;',[id]);
+        const rs3 = await conn.query('UPDATE entities SET is_delete = 1 WHERE id IN ( select sub_entity.id from (SELECT id FROM entities WHERE stage_id = ( SELECT id FROM stage WHERE page_id = ? )) as sub_entity );',[id]);
+    }catch(e){
+        conn.rollback();
+        return [];
+    }
+    const commit_rs = await conn.commit();
+    return commit_rs[0];
 }
 
 module.exports = {
