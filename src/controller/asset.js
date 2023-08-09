@@ -31,9 +31,20 @@ const getByUserId = async (req, res) => {
     }
 }
 
+const getByUserIdAndCategory = async (req, res) => {
+    const { user_id, category } = req.query;
+    const result = await assetService.getByUserIdAndCategory(user_id, category);
+    if (result) {
+        res.send(ResponseWrapper.success(result));
+    } else {
+        res.send(ResponseWrapper.error(`${user_id}下的资产不存在！`));
+    }
+}
+
 
 module.exports = {
     'post /save': save,
     'get /getById': getById,
-    'get /getByUserId': getByUserId
+    'get /getByUserId': getByUserId,
+    'get /getByUserIdAndCategory': getByUserIdAndCategory,
 }

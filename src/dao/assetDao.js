@@ -34,8 +34,30 @@ const getByUserId = async (id) => {
     return result[0];
 }
 
+const getByUserIdAndCategory = async (id, category) => {
+    const pool = await database.getPool();
+
+    const result = await pool.query(`
+    SELECT
+        sub.* 
+    FROM
+        ( SELECT * FROM assets WHERE user_id in (10, ?) AND is_delete = 0 ) sub 
+    WHERE
+        sub.id IN (
+        SELECT
+            asset_id 
+        FROM
+            asset_category_map 
+    WHERE
+        category_id = ( SELECT id FROM categories WHERE NAME = ? ))
+    `, [id, category]);
+
+    return result[0];
+}
+
 module.exports = {
     save,
     getById,
-    getByUserId
+    getByUserId,
+    getByUserIdAndCategory
 }

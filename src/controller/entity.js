@@ -2,8 +2,8 @@ const entityService = require('../service/entityService');
 const ResponseWrapper = require('../lib/ResponseWrapper');
 
 const save = async (req, res) => {
-    const {id, stage_id,name,type,belong_scene,position,rotation,scale,uuid, container_id,bundled_asset_id } = req.body;
-    const result = await entityService.save({id, stage_id,name,type,belong_scene,position,rotation,scale,uuid,container_id,bundled_asset_id });
+    const {id, stage_id,name,type,belong_scene,position,rotation,scale,uuid, container_id,bundled_asset_id,opacity } = req.body;
+    const result = await entityService.save({id, stage_id,name,type,belong_scene,position,rotation,scale,uuid,container_id,bundled_asset_id,opacity });
     if (result) {
         res.send(ResponseWrapper.success(result));
     } else {

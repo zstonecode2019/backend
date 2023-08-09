@@ -32,6 +32,10 @@ const login = async (name, password) => {
 
     const result = await pool.query("select * from users where name = ? and password = ?", [name, password]);
 
+    if(result[0].length) {
+        process.env.USER_ID = result[0][0].id;
+    }
+
     return result[0];
 }
 

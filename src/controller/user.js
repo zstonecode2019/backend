@@ -1,5 +1,6 @@
 const userService = require('../service/userService');
 const ResponseWrapper = require('../lib/ResponseWrapper');
+const { addLog } = require('../dao/logDao');
 
 const register = async (req, res) => {
     const { name, avatar, nickname, password, gender, phone_number, email, address, birthday } = req.body;
@@ -15,6 +16,15 @@ const login = async (req, res) => {
     const { username, password } = req.body;
     const token = await userService.login(username, password);
     if (token) {
+        const method = req.method;
+        if(method !== 'OPTIONS'){
+            const log = {
+                type: 'login',
+                target: 'users',
+                target_id: token.id,
+            }
+            addLog(log);
+        }
         res.send(ResponseWrapper.success(token));
     } else {
         res.send(ResponseWrapper.error(`用户 ${username} 不存在或者密码错误！`));
