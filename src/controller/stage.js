@@ -2,8 +2,8 @@ const stageService = require('../service/stageService');
 const ResponseWrapper = require('../lib/ResponseWrapper');
 
 const save = async (req, res) => {
-    const {id, uuid,name,page_id,engine,render_info,effect_info,aspect } = req.body;
-    const result = await stageService.save({ id, uuid, name, page_id, engine, render_info, effect_info, aspect });
+    const {id, uuid,name,page_id,engine,mode,render_info,effect_info,aspect } = req.body;
+    const result = await stageService.save({ id, uuid, name, page_id, engine, mode, render_info, effect_info, aspect });
     if (result) {
         res.send(ResponseWrapper.success(result));
     } else {
